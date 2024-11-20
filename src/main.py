@@ -27,8 +27,11 @@ if __name__ == "__main__":
     try:
         logging.info("Loading Twitter data...")
         twitter_data = scrape_twitter("pendidikan indonesia")
-        twitter_data = twitter_data.drop_duplicates(inplace=True)
+        twitter_data.drop_duplicates(inplace=True)
         logging.info("Twitter data loaded successfully.")
+        print('===================================================================================================')
+        print(twitter_data.isna().sum())
+        print('===================================================================================================')
     except Exception as e:
         logging.error(f"Error loading Twitter data: {e}")
         exit()
@@ -45,6 +48,9 @@ if __name__ == "__main__":
         )
         thread_data = save_to_csv(posts, search_term)
         logging.info("Threads data loaded successfully.")
+        print('===================================================================================================')
+        print(thread_data.isna().sum())
+        print('===================================================================================================')
     except Exception as e:
         logging.error(f"Error loading Threads data: {e}")
         exit()
@@ -66,6 +72,9 @@ if __name__ == "__main__":
         logging.info("Starting sentiment labelling...")
         labelled_data = label_sentiment(combined_data, model_path)
         logging.info("Sentiment labelling completed successfully.")
+        ('===================================================================================================')
+        print(labelled_data.sample(5))
+        print('===================================================================================================')
     except Exception as e:
         logging.error(f"Error during sentiment labelling: {e}")
         exit()
@@ -80,6 +89,7 @@ if __name__ == "__main__":
         labelled_data = convert_column_to_string(labelled_data, 'Status ID')
         labelled_data['Date'] = pd.to_datetime(labelled_data['Date'], errors='coerce', utc=True)
         labelled_data.drop_duplicates(inplace=True)
+        labelled_data['Text'] = labelled_data['Text'].str.replace(r'^@+', '', regex=True)
         logging.info("Data cleaning completed successfully.")
     except Exception as e:
         logging.error(f"Error during data cleaning: {e}")

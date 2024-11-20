@@ -54,7 +54,9 @@ def label_sentiment(df, model_path, text_column="Text", batch_size=1):
 
         # Ambil label prediksi
         batch_predictions = torch.argmax(logits, dim=1).cpu().tolist()
-        predictions.extend(batch_predictions)
+        custom_mapping = {0: 'Positive', 1: 'Neutral', 2: 'Negatif'}
+        mapped_predictions = [custom_mapping[label] for label in batch_predictions]
+        predictions.extend(mapped_predictions)
 
     # Tambahkan kolom 'sentiment' ke DataFrame
     df["Sentiment"] = predictions
