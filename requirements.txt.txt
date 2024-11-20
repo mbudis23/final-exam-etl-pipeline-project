@@ -1,0 +1,12 @@
+pandas
+selenium
+bs4
+torch
+transformers
+tqdm
+python-dotenv
+jmespath
+parsel
+nested-lookup
+playwright
+psycopg2-binary

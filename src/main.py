@@ -30,7 +30,7 @@ if __name__ == "__main__":
         twitter_data.drop_duplicates(inplace=True)
         logging.info("Twitter data loaded successfully.")
         print('===================================================================================================')
-        print(twitter_data.isna().sum())
+        # print(twitter_data.isna().sum())
         print('===================================================================================================')
     except Exception as e:
         logging.error(f"Error loading Twitter data: {e}")
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         thread_data = save_to_csv(posts, search_term)
         logging.info("Threads data loaded successfully.")
         print('===================================================================================================')
-        print(thread_data.isna().sum())
+        # print(thread_data.isna().sum())
         print('===================================================================================================')
     except Exception as e:
         logging.error(f"Error loading Threads data: {e}")
