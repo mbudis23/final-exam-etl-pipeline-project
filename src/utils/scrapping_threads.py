@@ -470,7 +470,8 @@ def save_to_csv(posts: List[Dict], search_term: str):
             'text': 'Text',
             'replies': 'Replies',
             'reposts': 'Reposts',
-            'likes' : 'Likes'
+            'likes' : 'Likes',
+            'scraped_at': 'Scraped At'
         }
         mapping_df = rename_columns(df, column_mapping)
         mapping_df['Platform'] = 'Threads'
