@@ -89,7 +89,7 @@ if __name__ == "__main__":
         labelled_data = convert_column_to_string(labelled_data, 'Status ID')
         labelled_data['Date'] = pd.to_datetime(labelled_data['Date'], errors='coerce', utc=True)
         labelled_data.drop_duplicates(inplace=True)
-        labelled_data['Text'] = labelled_data['Text'].str.replace(r'^@+', '', regex=True)
+        labelled_data['User'] = labelled_data['User'].str.replace(r'^@+', '', regex=True)
         logging.info("Data cleaning completed successfully.")
     except Exception as e:
         logging.error(f"Error during data cleaning: {e}")
