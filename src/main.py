@@ -6,6 +6,8 @@ from utils.sentiment_labeller import label_sentiment
 from datetime import datetime, timedelta
 from utils.scrapping_threads import save_to_csv, scrape_threads_search
 from utils.normalize import convert_column_to_integer, convert_column_to_string
+from db.db_operations import connect_db, insert_data, close_connection
+
 if __name__ == "__main__":
     # Path ke file CSV
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -70,13 +72,39 @@ if __name__ == "__main__":
         labelled_data = convert_column_to_integer(labelled_data, 'Replies')
         labelled_data = convert_column_to_integer(labelled_data, 'Reposts')
         labelled_data = convert_column_to_string(labelled_data, 'Status ID')
-        labelled_data['Date'] = pd.to_datetime(labelled_data['Date'], errors='coerce')
+        labelled_data['Date'] = pd.to_datetime(labelled_data['Date'], errors='coerce', utc=True)
         labelled_data.drop_duplicates(inplace=True)
         print("Cleaning completed!")
     except Exception as e:
-        print(f"Error labelling sentiment: {e}")
+        print(f"Error Cleaning sentiment: {e}")
         exit()
-
-    output_path = os.path.join(current_dir, f"../data-output/labelled_{datetime.now().strftime("%Y-%m-%d")}.csv")
-    labelled_data.to_csv(output_path, index=False)
-    print(labelled_data.info())
+        
+    # Insert data into PostgreSQL
+    try:
+        print("Inserting data into PostgreSQL...")
+        conn = connect_db()
+        for _, row in labelled_data.iterrows():
+            insert_data(conn, {
+                'Text': row['Text'],
+                'User': row['User'],
+                'Likes': row['Likes'],
+                'Reposts': row['Reposts'],
+                'Date': row['Date'],
+                'Platform': row['Platform'],
+                'Scraped At': row['Scraped At'],
+                'Sentiment': row['Sentiment'],
+                'Views': row['Views'],
+                'Status ID': row['Status ID'],
+                'Replies': row['Replies']
+            })
+        print("Data insertion completed!")
+    except Exception as e:
+        print(f"Error inserting data: {e}")
+        exit()
+    finally:
+        close_connection(conn)
+        
+    print("Program Finish")
+    # output_path = os.path.join(current_dir, f"../data-output/labelled_{datetime.now().strftime("%Y-%m-%d")}.csv")
+    # labelled_data.to_csv(output_path, index=False)
+    # print(labelled_data.info())
