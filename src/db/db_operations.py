@@ -1,10 +1,18 @@
 import psycopg2
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load variables from .env
+
 
 db_params = {
-    'dbname': 'data_engineering',
-    'user': 'postgres',
-    'password': '12345678',
-    'host': 'localhost'  # Update as needed
+    'dbname': os.getenv('DATABASE_NAME'),
+    'user': os.getenv('USER'),
+    'password': os.getenv('PASSWORD'),
+    'host': os.getenv('HOST'),
+    'port': os.getenv('PORT'),
+    'sslmode': os.getenv('SSLMODE'),
+    'sslrootcert': os.getenv('CA_CERTIFICATE_PATH')
 }
 
 def connect_db():

@@ -2,7 +2,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from tqdm import tqdm
 
-def label_sentiment(df, model_path, text_column="Text", batch_size=32):
+def label_sentiment(df, model_path, text_column="Text", batch_size=1):
     """
     Melabeli sentimen dari kolom teks pada DataFrame menggunakan model BERT.
 
