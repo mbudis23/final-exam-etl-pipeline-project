@@ -22,12 +22,11 @@ if __name__ == "__main__":
 
     # Path ke model
     model_path = os.path.join(current_dir, "../models/indobert_2024-11-19_14-31-19")
-
+    twitter_data = os.path.join(current_dir, "../twitter_data.csv")
     # Load data Twitter
     try:
         logging.info("Loading Twitter data...")
-        twitter_data = scrape_twitter("pendidikan indonesia")
-        twitter_data.drop_duplicates(inplace=True)
+        twitter_data = pd.read_csv(twitter_data)
         logging.info("Twitter data loaded successfully.")
         print('===================================================================================================')
         # print(twitter_data.isna().sum())
@@ -39,14 +38,7 @@ if __name__ == "__main__":
     # Load data Thread
     try:
         logging.info("Loading Threads data...")
-        search_term = "pendidikan indonesia"
-        days_back = 1
-        posts = scrape_threads_search(
-            search_term=search_term,
-            max_posts=1000,
-            days_back=days_back
-        )
-        thread_data = save_to_csv(posts, search_term)
+        thread_data = pd.read_csv('../thread_data.csv')
         logging.info("Threads data loaded successfully.")
         print('===================================================================================================')
         # print(thread_data.isna().sum())
@@ -62,6 +54,7 @@ if __name__ == "__main__":
         thread_data["Status ID"] = None
         twitter_data["Scraped At"] = datetime.now()
         combined_data = pd.concat([twitter_data, thread_data], ignore_index=True)
+        combined_data.to_csv('../combined_data.csv', index=False)
         logging.info("Data combined successfully.")
     except Exception as e:
         logging.error(f"Error combining data: {e}")
@@ -102,6 +95,7 @@ if __name__ == "__main__":
         for _, row in labelled_data.iterrows():
             try:
                 insert_data(conn, {
+                    'Text': row['Text'],
                     'Text': row['Text'],
                     'User': row['User'],
                     'Likes': row['Likes'],
