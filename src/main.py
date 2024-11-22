@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # Load data Thread
     try:
         logging.info("Loading Threads data...")
-        thread_data = pd.read_csv('../thread_data.csv')
+        thread_data = pd.read_csv(os.path.join(current_dir, "../thread_data.csv"))
         logging.info("Threads data loaded successfully.")
         print('===================================================================================================')
         # print(thread_data.isna().sum())

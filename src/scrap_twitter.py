@@ -27,7 +27,7 @@ if __name__ == "__main__":
         logging.info("Loading Twitter data...")
         twitter_data = scrape_twitter("pendidikan indonesia")
         twitter_data.drop_duplicates(inplace=True)
-        twitter_data.to_csv('../twitter_data.csv', index=False)
+        twitter_data.to_csv(os.path.join(current_dir, "../twitter_data.csv"), index=False)
         logging.info("Twitter data loaded successfully.")
         print('===================================================================================================')
         # print(twitter_data.isna().sum())

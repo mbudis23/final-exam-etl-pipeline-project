@@ -26,7 +26,7 @@ if __name__ == "__main__":
     # Load data Twitter
     try:
         logging.info("Loading cleaned data...")
-        twitter_data = pd.read_csv(cleaning_data)
+        twitter_data = pd.read_csv(cleaning_data, dtype={'Status ID': str})
         logging.info("Twitter data loaded successfully.")
         print('===================================================================================================')
         # print(twitter_data.isna().sum())

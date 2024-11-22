@@ -33,7 +33,7 @@ if __name__ == "__main__":
             days_back=days_back
         )
         thread_data = save_to_csv(posts, search_term)
-        thread_data.to_csv('../thread_data.csv', index=False)
+        thread_data.to_csv(os.path.join(current_dir, "../thread_data.csv"), index=False)
         logging.info("Threads data loaded successfully.")
         print('===================================================================================================')
         # print(thread_data.isna().sum())

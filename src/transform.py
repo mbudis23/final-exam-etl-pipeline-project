@@ -22,12 +22,12 @@ if __name__ == "__main__":
 
     # Path ke model
     model_path = os.path.join(current_dir, "../models/indobert_2024-11-19_14-31-19")
-    twitter_data = os.path.join(current_dir, "../twitter_data.csv")
-    thread_data = os.path.join(current_dir, "../thread_data.csv")
+    twitter_data_path = os.path.join(current_dir, "../twitter_data.csv")
+    thread_data_path = os.path.join(current_dir, "../thread_data.csv")
     # Load data Twitter
     try:
         logging.info("Loading Twitter data...")
-        twitter_data = pd.read_csv(twitter_data)
+        twitter_data = pd.read_csv(twitter_data_path)
         logging.info("Twitter data loaded successfully.")
         print('===================================================================================================')
         # print(twitter_data.isna().sum())
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     # Load data Thread
     try:
         logging.info("Loading Threads data...")
-        thread_data = pd.read_csv('../thread_data.csv')
+        thread_data = pd.read_csv(thread_data_path)
         logging.info("Threads data loaded successfully.")
         print('===================================================================================================')
         # print(thread_data.isna().sum())
@@ -55,7 +55,7 @@ if __name__ == "__main__":
         thread_data["Status ID"] = None
         twitter_data["Scraped At"] = datetime.now()
         combined_data = pd.concat([twitter_data, thread_data], ignore_index=True)
-        combined_data.to_csv('../combined_data.csv', index=False)
+        combined_data.to_csv(os.path.join(current_dir, "../combined_data.csv"), index=False)
         logging.info("Data combined successfully.")
     except Exception as e:
         logging.error(f"Error combining data: {e}")
@@ -64,9 +64,9 @@ if __name__ == "__main__":
     # Proses sentimen
     try:
         logging.info("Starting sentiment labelling...")
-        # labelled_data = label_sentiment(combined_data, model_path)
+        labelled_data = label_sentiment(combined_data, model_path)
         labelled_data = combined_data
-        labelled_data['Sentiment'] = labelled_data['Likes'].apply(lambda x: 'Positive' if x > 100 else 'Negative')
+        # labelled_data['Sentiment'] = labelled_data['Likes'].apply(lambda x: 'Positive' if x > 100 else 'Negative')
         logging.info("Sentiment labelling completed successfully.")
         ('===================================================================================================')
         print(labelled_data.sample(5))
@@ -86,7 +86,7 @@ if __name__ == "__main__":
         labelled_data['Date'] = pd.to_datetime(labelled_data['Date'], errors='coerce', utc=True)
         labelled_data.drop_duplicates(inplace=True)
         labelled_data['User'] = labelled_data['User'].str.replace(r'^@+', '', regex=True)
-        labelled_data.to_csv('../cleaned_data.csv', index=False)
+        labelled_data.to_csv(os.path.join(current_dir, "../cleaned_data.csv"), index=False)
         logging.info("Data cleaning completed successfully.")
     except Exception as e:
         logging.error(f"Error during data cleaning: {e}")

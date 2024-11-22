@@ -1,11 +1,18 @@
-FROM apache/airflow:2.7.2
+# Gunakan base image Python
+FROM python:3.9-slim
 
-# Tambahkan dependensi tambahan jika diperlukan
-RUN pip install --no-cache-dir pandas selenium bs4 torch transformers tqdm python-dotenv jmespath parsel nested-lookup playwright psycopg2-binary
+# Set working directory
+WORKDIR /app
 
-# Set direktori kerja
-WORKDIR /home/budi-setiawan/Repository/data-engineering/
+# Salin semua file proyek ke dalam container
+COPY . .
 
-# Salin DAG dan plugin tambahan (opsional)
-COPY ./dags /home/budi-setiawan/Repository/data-engineering/dags
-COPY ./plugins /home/budi-setiawan/Repository/data-engineering/plugins
+# Install dependensi Python
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Install Playwright dan browser dependencies
+RUN apt-get update && apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libdrm2 libgbm1 libasound2 libxcomposite1 libxrandr2 libgtk-3-0 libxshmfence1 \
+    && playwright install
+
+# Jalankan skrip utama (ubah sesuai kebutuhan)
+CMD ["python", "src/main.py"]
