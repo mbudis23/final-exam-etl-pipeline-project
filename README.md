@@ -12,9 +12,9 @@ Proyek ini dirancang untuk mengimplementasikan pipeline ETL (Extract, Transform,
 
 Proses ETL ini bertujuan untuk membantu pemangku kepentingan dalam:
 
-    Memantau opini publik terkait topik pendidikan.
-    Menyediakan data akurat untuk mendukung keputusan berbasis data.
-    Mengidentifikasi tren dan pola dalam diskusi publik tentang pendidikan.
+    1. Memantau opini publik terkait topik pendidikan.
+    2. Menyediakan data akurat untuk mendukung keputusan berbasis data.
+    3. Mengidentifikasi tren dan pola dalam diskusi publik tentang pendidikan.
 
 Melalui pipeline ETL ini, proses pengolahan data sentimen dapat dilakukan secara otomatis, cepat, dan terstruktur. Data yang dihasilkan memungkinkan pemangku kepentingan untuk mendapatkan wawasan strategis tentang opini publik terhadap pendidikan nasional. Dengan dukungan teknologi seperti Apache Airflow, Supabase, dan Tableau, proyek ini menciptakan sistem analisis yang efisien, skalabel, dan berkelanjutan.
 
